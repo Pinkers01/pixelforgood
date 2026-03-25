@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'STRIPE_SECRET_KEY not set in environment' }, { status: 500 })
   }
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: '2025-02-24.acacia',
+    apiVersion: '2026-02-25.clover',
     httpClient: Stripe.createFetchHttpClient(),
   })
   try {
