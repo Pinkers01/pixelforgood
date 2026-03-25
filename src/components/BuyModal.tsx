@@ -80,7 +80,7 @@ export default function BuyModal({ open, onClose, selectedArea }: BuyModalProps)
       if (data.url) {
         window.location.href = data.url
       } else {
-        alert('Payment error. Please try again.')
+        alert('Payment error: ' + (data.error || 'Unknown error'))
         setLoading(false)
       }
     } catch {
