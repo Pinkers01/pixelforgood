@@ -27,6 +27,7 @@ export async function POST(req: NextRequest) {
             product_data: {
               name: `PixelForGood — ${pixels} pixel${pixels > 1 ? 's' : ''}`,
               description: `Advertising space on PixelForGood.org · ${title || 'My Ad'} · 50% goes to charity`,
+              tax_code: 'txcd_10000000',
             },
             unit_amount: Math.round(totalPrice * 100),
           },
@@ -38,6 +39,7 @@ export async function POST(req: NextRequest) {
             product_data: {
               name: `VFX Effect — ${vfx.replace('_', ' ')}`,
               description: 'Visual animation effect for your pixel block',
+              tax_code: 'txcd_10000000',
             },
             unit_amount: vfxPrice(vfx) * 100,
           },
@@ -51,6 +53,7 @@ export async function POST(req: NextRequest) {
         url: url || '',
         vfx: vfx || '',
       },
+      automatic_tax: { enabled: true },
       success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/cancel`,
     })
