@@ -1,11 +1,16 @@
 import Stripe from 'stripe'
 import { NextRequest, NextResponse } from 'next/server'
 
+export const runtime = 'nodejs'
+
 export async function POST(req: NextRequest) {
   if (!process.env.STRIPE_SECRET_KEY) {
     return NextResponse.json({ error: 'STRIPE_SECRET_KEY not set in environment' }, { status: 500 })
   }
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: '2025-02-24.acacia',
+    httpClient: Stripe.createFetchHttpClient(),
+  })
   try {
     const body = await req.json()
     const { pixels, totalPrice, category, title, url, vfx } = body
@@ -63,7 +68,7 @@ function vfxPrice(vfx: string): number {
     neon_pulse: 15,
     diamond_shine: 20,
     cyber_glitch: 25,
-    rainbow_wave: 30,
+    rainbow_wave: 35,
     fire: 50,
   }
   return prices[vfx] || 0
