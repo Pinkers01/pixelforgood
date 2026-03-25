@@ -209,10 +209,14 @@ export default function PixelCanvas({
       ctx.strokeStyle = '#00d4ff'
       ctx.lineWidth = 2 / zoom
       ctx.strokeRect(selectedArea.x, selectedArea.y, selectedArea.w, selectedArea.h)
-      const hs = 4 / zoom
-      [[selectedArea.x, selectedArea.y],[selectedArea.x+selectedArea.w-hs, selectedArea.y],
-       [selectedArea.x, selectedArea.y+selectedArea.h-hs],[selectedArea.x+selectedArea.w-hs, selectedArea.y+selectedArea.h-hs]]
-        .forEach(([cx,cy]) => { ctx.fillStyle='#00d4ff'; ctx.fillRect(cx,cy,hs,hs) })
+      const hs: number = 4 / zoom
+      const corners: [number, number][] = [
+        [selectedArea.x, selectedArea.y],
+        [selectedArea.x + selectedArea.w - hs, selectedArea.y],
+        [selectedArea.x, selectedArea.y + selectedArea.h - hs],
+        [selectedArea.x + selectedArea.w - hs, selectedArea.y + selectedArea.h - hs],
+      ]
+      corners.forEach(([cx, cy]) => { ctx.fillStyle = '#00d4ff'; ctx.fillRect(cx, cy, hs, hs) })
     }
 
     // ── PIXEL INFO HIGHLIGHT ─────────────────────────────────────────────────────
