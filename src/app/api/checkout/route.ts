@@ -13,7 +13,6 @@ export async function POST(req: NextRequest) {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'payment',
-      automatic_tax: { enabled: true },
       line_items: [
         {
           price_data: {
@@ -21,9 +20,8 @@ export async function POST(req: NextRequest) {
             product_data: {
               name: `PixelForGood — ${pixels} pixel${pixels > 1 ? 's' : ''}`,
               description: `Advertising space on PixelForGood.org · ${title || 'My Ad'} · 50% goes to charity`,
-              images: ['https://pixelforgood-kxxv.vercel.app/og-image.png'],
             },
-            unit_amount: Math.round(totalPrice * 100), // cents
+            unit_amount: Math.round(totalPrice * 100),
           },
           quantity: 1,
         },
