@@ -63,10 +63,30 @@ export default function BuyModal({ open, onClose, selectedArea }: BuyModalProps)
   const handleCheckout = async () => {
     if (!url || !title || !agreed) return
     setLoading(true)
-    // TODO: POST to /api/checkout → Stripe session
-    await new Promise(r => setTimeout(r, 1000))
-    setLoading(false)
-    alert('🚧 Stripe checkout coming soon! Backend in Phase 2.')
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          pixels: totalPixels,
+          totalPrice: pixelCost,
+          category,
+          title,
+          url,
+          vfx: vfx !== 'none' ? vfx : undefined,
+        }),
+      })
+      const data = await res.json()
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        alert('Payment error. Please try again.')
+        setLoading(false)
+      }
+    } catch {
+      alert('Connection error. Please try again.')
+      setLoading(false)
+    }
   }
 
   const inputStyle = {
